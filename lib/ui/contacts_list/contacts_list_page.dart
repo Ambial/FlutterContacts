@@ -22,6 +22,7 @@ class _ContactsListPageState extends State<ContactsListPage> {
             phoneNumber: faker.phoneNumber.us()));
   }
 
+  //runs every time the state changes (useEffect?)
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +33,18 @@ class _ContactsListPageState extends State<ContactsListPage> {
           return ListTile(
             title: Center(child: Text(_contacts[index].name)),
             subtitle: Center(child: Text(_contacts[index].phoneNumber)),
+            trailing: IconButton(
+              icon: Icon(
+                // Ternary operator ? : acts like an if-else statement
+                _contacts[index].isFavorite ? Icons.star : Icons.star_border,
+                color: _contacts[index].isFavorite ? Colors.amber : Colors.grey,
+              ),
+              onPressed: () => {
+                setState(() => {
+                      _contacts[index].isFavorite = !_contacts[index].isFavorite
+                    })
+              },
+            ),
           );
         },
       ),
