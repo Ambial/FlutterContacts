@@ -1,6 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/data/contact.dart';
+import 'package:flutter_contacts/ui/contacts_list/widget/ContactTile.dart';
 
 class ContactsListPage extends StatefulWidget {
   @override
@@ -30,30 +31,22 @@ class _ContactsListPageState extends State<ContactsListPage> {
       body: ListView.builder(
         itemCount: _contacts.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Center(child: Text(_contacts[index].name)),
-            subtitle: Center(child: Text(_contacts[index].phoneNumber)),
-            trailing: IconButton(
-              icon: Icon(
-                // Ternary operator ? : acts like an if-else statement
-                _contacts[index].isFavorite ? Icons.star : Icons.star_border,
-                color: _contacts[index].isFavorite ? Colors.amber : Colors.grey,
-              ),
-              onPressed: () => {
-                setState(() {
-                  _contacts[index].isFavorite = !_contacts[index].isFavorite;
-                  _contacts.sort((contactA, contactB) {
-                    if (contactA.isFavorite) {
-                      return -1;
-                    } else if (contactB.isFavorite) {
-                      return 1;
-                    } else {
-                      return 0;
-                    }
-                  });
-                })
-              },
-            ),
+          return ContactTile(
+            contact: _contacts[index],
+            onFavoritePressed: () {
+              setState(() {
+                _contacts[index].isFavorite = !_contacts[index].isFavorite;
+                _contacts.sort((contactA, contactB) {
+                  if (contactA.isFavorite) {
+                    return -1;
+                  } else if (contactB.isFavorite) {
+                    return 1;
+                  } else {
+                    return 0;
+                  }
+                });
+              });
+            },
           );
         },
       ),
